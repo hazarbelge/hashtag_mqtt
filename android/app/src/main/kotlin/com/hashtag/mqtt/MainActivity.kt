@@ -1,4 +1,4 @@
-package com.hashtag.mqtt.hashtag_mqtt
+package com.hashtag.mqtt
 
 import io.flutter.embedding.android.FlutterActivity
 
