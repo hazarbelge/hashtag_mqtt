@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "468912544522",
+    "firebase_url": "https://hashtag-mqtt-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "hashtag-mqtt",
+    "storage_bucket": "hashtag-mqtt.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:468912544522:android:b8e84319bbf5928e3e38f3",
+        "android_client_info": {
+          "package_name": "com.hashtag.mqtt"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "468912544522-3jjc011olpconhrd31m4v9h91o11lh8q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD6odst2tqb53vgB11Cb5WKCMLevIGDbUY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "468912544522-3jjc011olpconhrd31m4v9h91o11lh8q.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

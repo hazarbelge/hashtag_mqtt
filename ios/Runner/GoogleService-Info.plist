@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>468912544522-ktf0imeglt6h7flahfaankcplk6dnso9.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.468912544522-ktf0imeglt6h7flahfaankcplk6dnso9</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCAV-ufn7Ne9ho3gAho5J71SQw_ogxpxMU</string>
+	<key>GCM_SENDER_ID</key>
+	<string>468912544522</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.hashtag.mqtt.hashtagMqtt</string>
+	<key>PROJECT_ID</key>
+	<string>hashtag-mqtt</string>
+	<key>STORAGE_BUCKET</key>
+	<string>hashtag-mqtt.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:468912544522:ios:73e986ff4d9c5cdf3e38f3</string>
+	<key>DATABASE_URL</key>
+	<string>https://hashtag-mqtt-default-rtdb.europe-west1.firebasedatabase.app</string>
+</dict>
+</plist>
