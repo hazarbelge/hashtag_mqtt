@@ -46,12 +46,12 @@ class TranslationUtil extends Translations {
         "tr": <String, String>{
           "distance.range": "Mesafe Aralığı",
           "almost.same.position": "Neredeyse Aynı Konumdasınız",
-          "your.location": "Konumunuz dış daire üzerindeki bir noktadadır",
+          "your.location": "Anchor noktalarının merkez noktasına göre konumunuz (Sarı Renkli Nokta)",
         },
         "en": <String, String>{
           "distance.range": "Distance Range",
           "almost.same.position": "You are almost in the same position",
-          "your.location": "Your location is on a point outside the circle",
+          "your.location": "Your location according to the center point of the Anchor points (Yellow Dot)",
         },
   };
 }

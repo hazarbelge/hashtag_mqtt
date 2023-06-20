@@ -1,3 +1,5 @@
+import 'dart:ui' as ui;
+
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
 import "package:flutter/material.dart";
@@ -93,156 +95,125 @@ class LocationShow extends StatelessWidget {
       physics: const NeverScrollableScrollPhysics(),
       defaultChild: const SizedBox(),
       itemBuilder: (BuildContext context, DataSnapshot snapshot, Animation<double> animation, int index) {
-        debugPrint("distance: ${snapshot.value} m");
+        debugPrint("data: ${snapshot.value}");
 
         if (snapshot.value == null) {
           return const SizedBox();
         }
 
-        final double? _distance = double.tryParse(snapshot.value!.toString());
-
-        final double centerSize = maxCircleRadius * 1.5 * (1 - (_distance ?? 0) * 40 / maxCircleRadius);
-        double effectiveCenterSize = centerSize > 5 ? centerSize : 5;
-
-        if (_distance! <= 0.1) {
-          effectiveCenterSize = maxCircleRadius * 2;
+        if (snapshot.value.runtimeType != <Object?, Object?>{}.runtimeType) {
+          return const SizedBox();
         }
 
-        return SizedBox(
-          height: maxCircleRadius * 2,
-          width: maxCircleRadius * 2,
-          child: Stack(
-            children: <Widget>[
-              Center(
-                child: Container(
-                  height: maxCircleRadius * 2,
-                  width: maxCircleRadius * 2,
-                  decoration: BoxDecoration(
-                    gradient: const LinearGradient(
-                      colors: <Color>[
-                        ThemeColors.secondaryColor,
-                        ThemeColors.primaryColor,
-                      ],
-                    ),
-                    shape: BoxShape.circle,
-                    border: Border.all(
-                      color: Colors.black,
-                      width: 2,
-                    ),
-                  ),
-                ),
-              ),
-              Center(
-                child: CustomPaint(
-                  painter: LinePainter(maxCircleRadius, _distance),
-                ),
-              ),
-              Center(
-                child: Container(
-                  height: effectiveCenterSize,
-                  width: effectiveCenterSize,
-                  decoration: const BoxDecoration(
-                    color: Colors.black,
-                    shape: BoxShape.circle,
-                  ),
-                  child: Center(
-                    child: Text(
-                      "Anchor Point",
-                      style: TextStyles.descriptionBold.copyWith(
-                        fontSize: 14,
-                        color: Colors.white,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                  )
-                ),
-              ),
-              if (_distance > 0.1)
-                Center(
-                  child: CustomPaint(
-                    painter: DistancePainter(maxCircleRadius, _distance),
-                  ),
-                ),
-              if (_distance <= 0.1)
-                Center(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: Text(
-                      "${"almost.same.position".tr}\n$_distance m",
-                      style: TextStyles.descriptionBold.copyWith(
-                        fontSize: 24,
-                        color: ThemeColors.thirdColor,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                ),
-            ],
-          ),
+        final double? _x = (snapshot.value as Map<Object?, Object?>?)?["x"] as double?;
+        final double? _y = (snapshot.value as Map<Object?, Object?>?)?["y"] as double?;
+        final double? _z = (snapshot.value as Map<Object?, Object?>?)?["z"] as double?;
+
+        return Point3DWidget(
+          x: _x ?? 0,
+          y: _y ?? 0,
+          z: _z ?? 0,
         );
       },
     );
   }
 }
 
-class DistancePainter extends CustomPainter {
-  DistancePainter(this.radius, this.distance);
+class Point3DWidget extends StatelessWidget {
+  const Point3DWidget({
+    Key? key,
+    required this.x,
+    required this.y,
+    required this.z,
+  }) : super(key: key);
 
-  final double radius;
-  final double distance;
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final TextSpan textSpan = TextSpan(
-      text: '$distance m',
-      style: const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
-    );
-
-    final TextPainter textPainter = TextPainter(
-      text: textSpan,
-      textDirection: TextDirection.ltr,
-      textAlign: TextAlign.center,
-    );
-
-    textPainter.layout();
-
-    final Offset offset = Offset(
-      -radius * 0.18 + radius - textPainter.width,
-      size.height / 2 - textPainter.height / 2 - 10,
-    );
-
-    textPainter.paint(canvas, offset);
-  }
+  final double x, y, z;
 
   @override
-  bool shouldRepaint(CustomPainter oldDelegate) {
-    return true;
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          CustomPaint(
+            size: const Size(400, 400),
+            painter: PointPainter(
+              x: x,
+              y: y,
+              z: z,
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
 
-class LinePainter extends CustomPainter {
-  LinePainter(this.radius, this.distance);
+class PointPainter extends CustomPainter {
+  PointPainter({
+    required this.x,
+    required this.y,
+    required this.z,
+  });
 
-  final double radius;
-  final double distance;
+  final double x, y, z;
 
   @override
   void paint(Canvas canvas, Size size) {
-    final Paint paint = Paint()
-      ..color = Colors.white
-      ..strokeWidth = 2
-      ..style = PaintingStyle.stroke;
+    final Paint paintCenter = Paint()
+      ..color = Colors.blue
+      ..strokeWidth = 4.0
+      ..style = PaintingStyle.fill;
 
-    // Draw line horizontally from center to edge of circle
-    canvas.drawLine(
-      Offset(size.width / 2, size.height / 2),
-      Offset(-radius * 0.18 + radius, size.height / 2),
-      paint,
-    );
+    final Offset center = Offset(size.width / 2, size.height / 2);
+
+    final Paint paintPoint = Paint()
+      ..color = Colors.yellow
+      ..strokeWidth = 4.0
+      ..style = PaintingStyle.fill;
+
+    final Offset point = Offset(center.dx + x, center.dy - z);
+
+    final Paint paintLine = Paint()
+      ..color = Colors.red
+      ..strokeWidth = 2.0
+      ..style = PaintingStyle.stroke;
+    canvas.drawLine(center, point, paintLine);
+
+    canvas.drawCircle(center, 5.0, paintCenter);
+
+    canvas.drawCircle(point, 5.0, paintPoint);
+
+
+    final ui.ParagraphBuilder pb = ui.ParagraphBuilder(ui.ParagraphStyle(
+      textAlign: TextAlign.center,
+      fontSize: 14.0,
+      textDirection: TextDirection.ltr,
+      maxLines: 1,
+    ));
+
+    pb.pushStyle(ui.TextStyle(color: Colors.white));
+    pb.addText('(${x.toStringAsFixed(2)}, ${y.toStringAsFixed(2)}, ${z.toStringAsFixed(2)})');
+    const ui.ParagraphConstraints pc = ui.ParagraphConstraints(width: 200);
+    final ui.Paragraph paragraph = pb.build()..layout(pc);
+    canvas.drawParagraph(paragraph, point + const Offset(-100, 10));
+
+    final ui.ParagraphBuilder pbCenter = ui.ParagraphBuilder(ui.ParagraphStyle(
+      textAlign: TextAlign.center,
+      fontSize: 14.0,
+      textDirection: TextDirection.ltr,
+      maxLines: 1,
+    ));
+
+    pbCenter.pushStyle(ui.TextStyle(color: Colors.white));
+    pbCenter.addText('(0.00, 0.00, 0.00)');
+    const ui.ParagraphConstraints pcCenter = ui.ParagraphConstraints(width: 200);
+    final ui.Paragraph paragraphCenter = pbCenter.build()..layout(pcCenter);
+    canvas.drawParagraph(paragraphCenter, center + const Offset(-100, 10));
   }
 
   @override
-  bool shouldRepaint(CustomPainter oldDelegate) {
-    return true;
+  bool shouldRepaint(PointPainter old) {
+    return old.x != x || old.y != y || old.z != z;
   }
 }
