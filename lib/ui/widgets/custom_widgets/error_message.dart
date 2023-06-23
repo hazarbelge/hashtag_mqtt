@@ -35,7 +35,10 @@ class ErrorMessage extends StatelessWidget {
                 "assets/app/error.svg",
                 height: 20,
                 width: 20,
-                color: iconColor,
+                colorFilter: ColorFilter.mode(
+                  iconColor,
+                  BlendMode.srcIn,
+                )
               ),
               const SizedBox(width: 10),
               Text(

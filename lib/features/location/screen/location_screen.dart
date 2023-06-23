@@ -85,9 +85,6 @@ class LocationShow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Size screenSize = MediaQuery.of(context).size;
-    final double maxCircleRadius = screenSize.width / 2;
-
     return FirebaseAnimatedList(
       reverse: false,
       query: GlobalVariables.firebase.firebaseDatabaseRef,
@@ -172,7 +169,7 @@ class PointPainter extends CustomPainter {
       ..strokeWidth = 4.0
       ..style = PaintingStyle.fill;
 
-    final Offset point = Offset(center.dx + x, center.dy - z);
+    final Offset point = Offset(center.dx + x, center.dy - y);
 
     final Paint paintLine = Paint()
       ..color = Colors.red
